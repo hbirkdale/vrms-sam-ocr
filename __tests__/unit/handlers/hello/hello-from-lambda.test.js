@@ -1,5 +1,5 @@
 // Import all functions from hello-from-lambda.js
-const lambda = require('../../../src/handlers/hello/hello-from-lambda.js');
+const lambda = require('../../../../src/handlers/hello/hello-from-lambda.js');
 
 // This includes all tests for helloFromLambdaHandler()
 describe('Test for hello-from-lambda', function () {
