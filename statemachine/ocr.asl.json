@@ -1,15 +1,15 @@
 {
-    "Comment": "A Hello World example of the Amazon States Language using Pass states",
-    "StartAt": "Hello",
+    "Comment": "OCR State Machine from scratch",
+    "StartAt": "Begin",
     "States": {
-      "Hello": {
+      "Begin": {
         "Type": "Pass",
-        "Result": "Hello",
-        "Next": "World"
+        "Resource": "${helloFromLambdaFunctionArn}"
+        "Next": "Preprocess"
       },
-      "World": {
+      "Preprocess": {
         "Type": "Pass",
-        "Result": "World",
+        "Resource": "${helloFromPreprocessorFunctionArn}"
         "End": true
       }
     }

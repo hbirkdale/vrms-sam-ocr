@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: vrms-sam-ocr
+Transform:
+- AWS::Serverless-2016-10-31
+Resources:
+  OCRStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri:
+        Bucket: vrms-sam-apps
+        Key: f629de49e36dac9c28590404528013a7
+      DefinitionSubstitutions:
+        helloFromLambdaFunctionArn:
+          Fn::GetAtt:
+          - helloFromLambdaFunction
+          - Arn
+      Policies:
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: helloFromLambdaFunction
+  helloFromLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/hello/hello-from-lambda.helloFromLambdaHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that returns a static string.
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: s3://vrms-sam-apps/69a5e2d39cdc413a26274ef875e7f49e
+  helloFromPreprocessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/OCRPreprocess/preprocessor.helloFromPreprocessor
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that returns a static string.
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: s3://vrms-sam-apps/69a5e2d39cdc413a26274ef875e7f49e

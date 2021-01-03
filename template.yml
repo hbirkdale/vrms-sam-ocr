@@ -24,9 +24,11 @@ Resources:
         DefinitionUri: statemachine/ocr.asl.json
         DefinitionSubstitutions:
           helloFromLambdaFunctionArn: !GetAtt helloFromLambdaFunction.Arn
+          helloFromPreprocessorFunctionArn: !GetAtt helloFromPreprocessorFunction.Arn
         Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
           - LambdaInvokePolicy:
               FunctionName: !Ref helloFromLambdaFunction
+              FunctionName: !Ref helloFromPreprocessorFunction
 
   # This is a Lambda function config associated with the source code: hello-from-lambda.js
   helloFromLambdaFunction:
