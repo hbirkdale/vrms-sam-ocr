@@ -1,5 +1,5 @@
 // Import all functions from hello-from-lambda.js
-const lambda = require('../../../src/handlers/hello-from-lambda.js');
+const lambda = require('../../../src/handlers/hello/hello-from-lambda.js');
 
 // This includes all tests for helloFromLambdaHandler()
 describe('Test for hello-from-lambda', function () {
@@ -13,7 +13,7 @@ describe('Test for hello-from-lambda', function () {
             if you change from `const message = 'Hello from Lambda!';` to `const message = 'Hello World!';` in hello-from-lambda.js
             you should change the following line to `const expectedResult = 'Hello World!';`
         */
-        const expectedResult = 'Hello from Lambda!';
+        const expectedResult = 'Hello from Lambda-Moved to new directory!';
         // Compare the result with the expected result
         expect(result).toEqual(expectedResult);
     });
