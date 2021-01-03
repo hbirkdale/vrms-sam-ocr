@@ -1,10 +1,15 @@
 {
-    "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda function",
-    "StartAt": "HelloWorld",
+    "Comment": "A Hello World example of the Amazon States Language using Pass states",
+    "StartAt": "Hello",
     "States": {
-      "HelloWorld": {
-        "Type": "Task",
-        "Resource": "${helloFromLambdaFunctionArn}",
+      "Hello": {
+        "Type": "Pass",
+        "Result": "Hello",
+        "Next": "World"
+      },
+      "World": {
+        "Type": "Pass",
+        "Result": "World",
         "End": true
       }
     }
