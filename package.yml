@@ -21,6 +21,9 @@ Resources:
       Policies:
       - LambdaInvokePolicy:
           FunctionName:
+            Ref: helloFromLambdaFunction
+      - LambdaInvokePolicy:
+          FunctionName:
             Ref: helloFromPreprocessorFunction
   helloFromLambdaFunction:
     Type: AWS::Serverless::Function
@@ -29,10 +32,10 @@ Resources:
       Runtime: nodejs12.x
       MemorySize: 128
       Timeout: 100
-      Description: A Lambda function that returns a static string.
+      Description: Lambda start OCR function returning string.
       Policies:
       - AWSLambdaBasicExecutionRole
-      CodeUri: s3://vrms-sam-apps/a810ae20b8010f5d54dfc0992de75674
+      CodeUri: s3://vrms-sam-apps/fe106cdc74acfd732299bc7faefce676
   helloFromPreprocessorFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -40,7 +43,19 @@ Resources:
       Runtime: nodejs12.x
       MemorySize: 128
       Timeout: 100
-      Description: A Lambda function that returns a static string.
+      Description: Lambda preprocessor function currently returning string.
       Policies:
       - AWSLambdaBasicExecutionRole
-      CodeUri: s3://vrms-sam-apps/a810ae20b8010f5d54dfc0992de75674
+      CodeUri: s3://vrms-sam-apps/fe106cdc74acfd732299bc7faefce676
+Outputs:
+  OCRStateMachineArn:
+    Description: OCR state machine ARN
+    Value:
+      Ref: OCRStateMachine
+  OCRStateMachineRole:
+    Description: IAM Role created for OCR state machine based on the specified SAM
+      Policy Templates
+    Value:
+      Fn::GetAtt:
+      - OCRStateMachineRole
+      - Arn
