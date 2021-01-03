@@ -40,3 +40,14 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  helloFromPreprocessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/OCRPreprocess/preprocessor.helloFromPreprocessor
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that returns a static string.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
