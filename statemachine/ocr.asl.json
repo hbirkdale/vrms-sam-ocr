@@ -4,12 +4,12 @@
     "States": {
       "Begin": {
         "Type": "Pass",
-        "Resource": "${helloFromLambdaFunctionArn}"
+        "Resource": "${helloFromLambdaFunctionArn}",
         "Next": "Preprocess"
       },
       "Preprocess": {
         "Type": "Pass",
-        "Resource": "${helloFromPreprocessorFunctionArn}"
+        "Resource": "${helloFromPreprocessorFunctionArn}",
         "End": true
       }
     }

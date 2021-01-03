@@ -8,16 +8,20 @@ Resources:
     Properties:
       DefinitionUri:
         Bucket: vrms-sam-apps
-        Key: f629de49e36dac9c28590404528013a7
+        Key: 48d30d8d5e4f6c5064a08ce9fdb16e74
       DefinitionSubstitutions:
         helloFromLambdaFunctionArn:
           Fn::GetAtt:
           - helloFromLambdaFunction
           - Arn
+        helloFromPreprocessorFunctionArn:
+          Fn::GetAtt:
+          - helloFromPreprocessorFunction
+          - Arn
       Policies:
       - LambdaInvokePolicy:
           FunctionName:
-            Ref: helloFromLambdaFunction
+            Ref: helloFromPreprocessorFunction
   helloFromLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -28,7 +32,7 @@ Resources:
       Description: A Lambda function that returns a static string.
       Policies:
       - AWSLambdaBasicExecutionRole
-      CodeUri: s3://vrms-sam-apps/69a5e2d39cdc413a26274ef875e7f49e
+      CodeUri: s3://vrms-sam-apps/44b30693ba5955035a67da6d5b7662f3
   helloFromPreprocessorFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -39,4 +43,4 @@ Resources:
       Description: A Lambda function that returns a static string.
       Policies:
       - AWSLambdaBasicExecutionRole
-      CodeUri: s3://vrms-sam-apps/69a5e2d39cdc413a26274ef875e7f49e
+      CodeUri: s3://vrms-sam-apps/44b30693ba5955035a67da6d5b7662f3
