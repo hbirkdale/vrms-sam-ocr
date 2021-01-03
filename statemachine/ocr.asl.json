@@ -3,12 +3,12 @@
     "StartAt": "Begin",
     "States": {
       "Begin": {
-        "Type": "Pass",
+        "Type": "Task",
         "Resource": "${helloFromLambdaFunctionArn}",
         "Next": "Preprocess"
       },
       "Preprocess": {
-        "Type": "Pass",
+        "Type": "Task",
         "Resource": "${helloFromPreprocessorFunctionArn}",
         "End": true
       }
