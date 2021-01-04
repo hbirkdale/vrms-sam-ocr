@@ -1,0 +1,11 @@
+{
+  "name": "ocrpreprocess",
+  "version": "1.0.0",
+  "description": "Preprocessor for OCR files",
+  "main": "preprocessor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hank Birkdale",
+  "license": "ISC"
+}

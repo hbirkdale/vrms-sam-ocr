@@ -1,5 +1,27 @@
 # vrms-sam-ocr
 
+This project builds up a AWS Serverless app basically from scratch. I have found that copying the templates is not overly helpful to learning SAM because it hides a lot of knowledge, so I decided to get it do it myself from scratch. I still end up copying template.yml files - but at least now its much more incremental.
+
+If you look in the branch history you will see:
+Step_0_Basic_Sam: This is the empty "do it yourself" tempplate when you build a SAM CLI app. It does come with a "hello" function, which I actually moved from scr/handlers to scr/handlers/hello. You can run this locally by doing "sam local invoke" at your bash prompt.
+Step_1_Add_state_machine: This branch adds a very simple state machine which calls two Lambda functions - the original hello and a new one I created called OCRPreprocess, which will eventually be one of my production lambdas. 
+To get to Step 1, I had to do the following:
+- Update template.yml by adding the state machine resource and the OCRPreProcess lambda. 
+- Add statemachine/ocr.asl.json
+- npm init the Preprocessor code in src/OCRPreprocess and copy the hello lambda code.
+You can run step 1 locally - but only the lambdas - you cannot run the state machine locally. (Well technically you can but there is a lot of docker nonsense to test locally.) To run the lamdbda locally run "sam local invode 'whateverlamdba'".
+
+To see this branch working you will need to:
+- sam build
+- sam package \
+  --template-file template.yml \
+  --output-template-file package.yml \
+  --s3-bucket vrms-sam-apps
+- sam deploy --template-file /Users/hbirkdale/Documents/repos/vrms-sam-ocr/package.yml --stack-name hank-test --capabilities CAPABILITY_IA
+
+Then go to your state machine AWS console and "Execute" the state machine.
+
+
 This project contains source code and supporting files for a serverless application that you can deploy with the AWS Serverless Application Model (AWS SAM) command line interface (CLI). It includes the following files and folders:
 
 - `src` - Code for the application's Lambda function.

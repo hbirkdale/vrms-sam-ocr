@@ -17,6 +17,18 @@ Transform:
 Resources:
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  OCRStateMachine:
+      Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+      Properties:
+        DefinitionUri: statemachine/ocr.asl.json
+        DefinitionSubstitutions:
+          helloFromLambdaFunctionArn: !GetAtt helloFromLambdaFunction.Arn
+          helloFromPreprocessorFunctionArn: !GetAtt helloFromPreprocessorFunction.Arn
+        Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+          - LambdaInvokePolicy:
+              FunctionName: !Ref helloFromLambdaFunction
+          - LambdaInvokePolicy:
+              FunctionName: !Ref helloFromPreprocessorFunction
 
   # This is a Lambda function config associated with the source code: hello-from-lambda.js
   helloFromLambdaFunction:
@@ -26,7 +38,28 @@ Resources:
       Runtime: nodejs12.x
       MemorySize: 128
       Timeout: 100
-      Description: A Lambda function that returns a static string.
+      Description: Lambda start OCR function returning string.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  helloFromPreprocessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/OCRPreprocess/preprocessor.helloFromPreprocessor
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Lambda preprocessor function currently returning string.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+Outputs:
+  # You need to explicitly put this in for your state machine
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  OCRStateMachineArn:
+    Description: "OCR state machine ARN"
+    Value: !Ref OCRStateMachine
+  OCRStateMachineRole:
+    Description: "IAM Role created for OCR state machine based on the specified SAM Policy Templates"
+    Value: !GetAtt OCRStateMachineRole.Arn

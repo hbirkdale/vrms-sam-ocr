@@ -1,0 +1,16 @@
+{
+    "Comment": "OCR State Machine from scratch",
+    "StartAt": "Begin",
+    "States": {
+      "Begin": {
+        "Type": "Task",
+        "Resource": "${helloFromLambdaFunctionArn}",
+        "Next": "Preprocess"
+      },
+      "Preprocess": {
+        "Type": "Task",
+        "Resource": "${helloFromPreprocessorFunctionArn}",
+        "End": true
+      }
+    }
+  }

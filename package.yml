@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: vrms-sam-ocr
+Transform:
+- AWS::Serverless-2016-10-31
+Resources:
+  OCRStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri:
+        Bucket: vrms-sam-apps
+        Key: f4b00a0cd14070856db933df2ebb16ba
+      DefinitionSubstitutions:
+        helloFromLambdaFunctionArn:
+          Fn::GetAtt:
+          - helloFromLambdaFunction
+          - Arn
+        helloFromPreprocessorFunctionArn:
+          Fn::GetAtt:
+          - helloFromPreprocessorFunction
+          - Arn
+      Policies:
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: helloFromLambdaFunction
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: helloFromPreprocessorFunction
+  helloFromLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/hello/hello-from-lambda.helloFromLambdaHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Lambda start OCR function returning string.
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: s3://vrms-sam-apps/fe106cdc74acfd732299bc7faefce676
+  helloFromPreprocessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/OCRPreprocess/preprocessor.helloFromPreprocessor
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Lambda preprocessor function currently returning string.
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      CodeUri: s3://vrms-sam-apps/fe106cdc74acfd732299bc7faefce676
+Outputs:
+  OCRStateMachineArn:
+    Description: OCR state machine ARN
+    Value:
+      Ref: OCRStateMachine
+  OCRStateMachineRole:
+    Description: IAM Role created for OCR state machine based on the specified SAM
+      Policy Templates
+    Value:
+      Fn::GetAtt:
+      - OCRStateMachineRole
+      - Arn
